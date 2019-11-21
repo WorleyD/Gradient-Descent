@@ -1,5 +1,5 @@
 
-# Final Project for COMP 3170 Class
+# Final Project for COMP 3710 Class
 
   ## Introduction
 This project simulates various gradient descent algorithms on randomly generated linear, quardratic, elliptical, or sinusiodal data, allowing user set variables to modify the gradient descent parameters
@@ -22,10 +22,15 @@ Once Parameters are tweaked to the users liking, data can be generate by selecti
 From there, simply press generate data until you get data you are satisfied with, and then press 'Run Gradient Descent' button to watch the magic unfold.
 
 ## Authors 
-Daniel D.
-Patrick D.
-Tara V.
-David W.
+
+Daniel D.  
+
+Patrick D.  
+
+Tara V.  
+
+David W.  
+
 
 
 ## Authors Note
