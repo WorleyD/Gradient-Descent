@@ -86,6 +86,9 @@ def genData(data_type, num, scale_radius, win_size, noise):
 
 	xVals = [scale_radius*(2*np.random.random_sample()-1) for i in range(num)]
 
+	if data_type == 4: #Random
+		data_type = np.random.choice([1,2,3]) 
+
 	if data_type == 0: # linear
 		a = (2*np.random.random_sample()-1)
 
@@ -126,7 +129,7 @@ def genData(data_type, num, scale_radius, win_size, noise):
 
 		data = [[(a * math.cos((x+scale_radius)/(2*scale_radius) * win_size[0] - shift[0]) + center[0] + noise*np.random.normal()/math.sqrt(2))* 2 / win_size[0], b * math.sin((x+scale_radius)/(2*scale_radius) * win_size[0] - shift[1]) + center[1] + noise*np.random.normal()/math.sqrt(2)] for x in xVals]
 
-	if data_type == 3:
+	if data_type == 3: # Sinusoidal
 		xStretch = np.random.random_sample() + 1
 		yStretch = 100 * (np.random.random_sample() + 1/2) * np.random.choice([1,-1])
 		xShift = np.random.random_sample() * math.pi

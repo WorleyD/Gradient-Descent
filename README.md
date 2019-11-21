@@ -18,13 +18,13 @@ Upon launching the program you'll be greeted with a window consisting of a blank
 TODO Fill these in
 
 Noise:  
-Learning Rate: 
-Polynomial Order: 
-Regularization: 
-Total Iterations: 
-Iteration Time Step: 
-Training Examples: 
-Batch Size:  
+Learning Rate:  
+Polynomial Order:  
+Regularization:  
+Total Iterations:  
+Iteration Time Step:  
+Training Examples:  
+Batch Size:   
 
 
 

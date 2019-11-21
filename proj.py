@@ -49,7 +49,7 @@ options1 = [noise, learningRate, polynomialOrder, regularization, numIters, iter
 generateData = interface.Button((200, 300), (160, 50), "New Data", 30)
 clear = interface.Button((200, 365), (160, 50), "Clear Plot", 30)
 run = interface.Button((20, 430), (340, 50), "Run Gradient Descent", 30)
-dataSetType = interface.Options((20,300), 20, ["Linear", "Quadratic", "Elliptic", "Sinusoidal"], 0, "Dataset Type")
+dataSetType = interface.Options((20,300), 20, ["Linear", "Quadratic", "Elliptic", "Sinusoidal", "Random"], 0, "Dataset Type")
 
 options2 = [generateData, dataSetType, clear, run]
 
