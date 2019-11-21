@@ -1,8 +1,9 @@
-
 import pygame
 import math
-import numpy as np # Required mainly for matrix computation in the GD algorithm
-import resources 
+import numpy as np  # Required mainly for matrix computation in the GD algorithm
+import mathutils	# Our math library with gradient descent and all helper functions it needs
+import interface	# Interface library containing UI element definitions
+import plotter		# Plotting library containing all graphing functions
 
 ## Defining colours
 WHITE = (255,255,255)
@@ -34,25 +35,25 @@ clickCount = 0
 
 ## Sliders, Buttons, and Options
 
-noise = resources.Slider((20,25), (100,10), [i for i in range(0,101)], 0, "Noise")
-learningRate = resources.Slider((20,60), (100,10), [0.00000001 * i**2 for i in range(0,10001)], 1, "Learning Rate")
-polynomialOrder = resources.Slider((20, 95), (100,10), [math.floor(0.1*i + 1) for i in range(0,100)], 0, "Polynomial Order")
-regularization = resources.Slider((20,130), (100,10), [0.01 * i / 2 for i in range(0,1001)], 0, "Regularization")
-numIters = resources.Slider((20,165), (100,10), [i for i in range(1,1001)], 99, "Total Iterations")
-itersTime = resources.Slider((20, 200), (100,10), [math.floor(0.2*i + 1) for i in range(0,100)], 0, "Iteration Time Step")
-trainingEx = resources.Slider((20,235), (100,10), [i for i in range(1,1001)], 99, "Training Examples")
-batchSize = resources.Slider((20,270), (100,10), [i for i in range(1,1001)], 99, "Batch Size")
+noise = interface.Slider((20,25), (100,10), [i for i in range(0,101)], 0, "Noise")
+learningRate = interface.Slider((20,60), (100,10), [0.00000001 * i**2 for i in range(0,10001)], 1, "Learning Rate")
+polynomialOrder = interface.Slider((20, 95), (100,10), [math.floor(0.1*i + 1) for i in range(0,100)], 0, "Polynomial Order")
+regularization = interface.Slider((20,130), (100,10), [0.01 * i / 2 for i in range(0,1001)], 0, "Regularization")
+numIters = interface.Slider((20,165), (100,10), [i for i in range(1,1001)], 99, "Total Iterations")
+itersTime = interface.Slider((20, 200), (100,10), [math.floor(0.2*i + 1) for i in range(0,100)], 0, "Iteration Time Step")
+trainingEx = interface.Slider((20,235), (100,10), [i for i in range(1,1001)], 99, "Training Examples")
+batchSize = interface.Slider((20,270), (100,10), [i for i in range(1,1001)], 99, "Batch Size")
 
 options1 = [noise, learningRate, polynomialOrder, regularization, numIters, itersTime, trainingEx, batchSize]
 
-generateData = resources.Button((200, 300), (160, 50), "New Data", 30)
-clear = resources.Button((200, 365), (160, 50), "Clear Plot", 30)
-run = resources.Button((20, 430), (340, 50), "Run Gradient Descent", 30)
-dataSetType = resources.Options((20,300), 20, ["Linear", "Quadratic", "Elliptic", "Sinusoidal"], 0, "Dataset Type")
+generateData = interface.Button((200, 300), (160, 50), "New Data", 30)
+clear = interface.Button((200, 365), (160, 50), "Clear Plot", 30)
+run = interface.Button((20, 430), (340, 50), "Run Gradient Descent", 30)
+dataSetType = interface.Options((20,300), 20, ["Linear", "Quadratic", "Elliptic", "Sinusoidal"], 0, "Dataset Type")
 
 options2 = [generateData, dataSetType, clear, run]
 
-plotw = resources.plotWindow((400,0), (800,600))
+plotw = plotter.plotWindow((400,0), (800,600))
 pdimensions = plotw.getDims()
 
 data = None
@@ -176,13 +177,13 @@ while not done:
 			lmda = GD_RunState[3]
 			batch_size = GD_RunState[5]
 
-			theta = resources.gradientDescent(X, y, alpha, lmda, iters, batch_size, theta)
+			theta = mathutils.gradientDescent(X, y, alpha, lmda, iters, batch_size, theta)
 
-			cost = round(resources.avgCost(theta, X, y),3)
+			cost = round(mathutils.avgCost(theta, X, y),3)
 
 			xpoints = [x/250 -2 for x in range(1001)]
 
-			func = [[x, resources.hypothesis(theta, np.matrix([[x**i for i in range(theta.shape[0])]]))] for x in xpoints]
+			func = [[x, mathutils.hypothesis(theta, np.matrix([[x**i for i in range(theta.shape[0])]]))] for x in xpoints]
 
 			#resources.getFunc(theta, mean, sdev, [x for x in range(0, pdimensions[1][0], 10)])
 
@@ -193,25 +194,11 @@ while not done:
 
 	if generateData.getVal():
 
-		data = resources.genData(dataSetType.getVal(), trainingEx.getVal(), scale_radius, pdimensions[1], noise.getVal())
+		data = mathutils.genData(dataSetType.getVal(), trainingEx.getVal(), scale_radius, pdimensions[1], noise.getVal())
 		
 		#xVals = [2*scale_radius*np.random.random_sample() - scale_radius for x in range(trainingEx.getVal())]
 		#data = [[x, -(pdimensions[1][0]*(x+scale_radius)/(2*scale_radius))*(pdimensions[1][0]*(x+scale_radius)/(2*scale_radius) - 800)/800 + 100 +noise.getVal() * np.random.normal()] for x in xVals]
 		
-	## Code to draw a line
-	#pygame.draw.line(screen, BLACK,  (50,60), (100,30), 4)
-
-	## Code to draw a rectangle
-	#pygame.draw.rect(screen, BLACK, (0,0,50,50), 5)
-
-	## Code to draw an ellipse
-	#pygame.draw.ellipse(screen, BLACK, (100,80,100,50), 5)
-
-	## Code to draw a circle
-	#pygame.draw.circle(screen, BLACK,(25,120),20,2)
-
-	## Code to draw a polygon
-	#pygame.draw.polygon(screen, BLACK, ((350,0),(400,50),(300,50)),3)
 
 
 	## Flipping the display
