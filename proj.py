@@ -1,9 +1,11 @@
 import pygame
 import math
+import sys
 import numpy as np  # Required mainly for matrix computation in the GD algorithm
 import mathutils	# Our math library with gradient descent and all helper functions it needs
 import interface	# Interface library containing UI element definitions
 import plotter		# Plotting library containing all graphing functions
+
 
 ## Defining colours
 WHITE = (255,255,255)
@@ -50,8 +52,9 @@ generateData = interface.Button((200, 300), (160, 50), "New Data", 30)
 clear = interface.Button((200, 365), (160, 50), "Clear Plot", 30)
 run = interface.Button((20, 430), (340, 50), "Run Gradient Descent", 30)
 dataSetType = interface.Options((20,300), 20, ["Linear", "Quadratic", "Elliptic", "Sinusoidal", "Random"], 0, "Dataset Type")
+quit = interface.Button((200, 495),(160, 50), "Quit", 30)
 
-options2 = [generateData, dataSetType, clear, run]
+options2 = [generateData, dataSetType, clear, run, quit]
 
 plotw = plotter.plotWindow((400,0), (800,600))
 pdimensions = plotw.getDims()
@@ -136,6 +139,10 @@ while not done:
 	if click:
 		currentMessage = None	
 
+	# Quit the program
+	if quit.getVal():
+		sys.exit()
+
 	if clear.getVal():
 		data = None
 		func = None
@@ -181,7 +188,9 @@ while not done:
 
 			cost = round(mathutils.avgCost(theta, X, y),3)
 
-			xpoints = [x/250 -2 for x in range(1001)]
+			#If this doesnt work replace it with:
+			#xpoints = [x/size*scale_radius - scale_radius for x in range(size*2 + 1)] 
+			xpoints = [x/150*scale_radius - scale_radius for x in range(301)]
 
 			func = [[x, mathutils.hypothesis(theta, np.matrix([[x**i for i in range(theta.shape[0])]]))] for x in xpoints]
 
@@ -206,6 +215,7 @@ while not done:
 
 	## Setting the fps
 	clock.tick(60)
+
 
 ## User friendly quitting
 pygame.quit()
