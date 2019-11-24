@@ -15,15 +15,14 @@ This program requires Python 3.5+, Pygame, and Numpy to be installed in order to
 
 Upon launching the program you'll be greeted with a window consisting of a blank plotting surface, as well as sliders and buttons to tweak parameters, generate data, and run the program. An explanation of all tweak-able parameters is provided below.
 
-TODO Fill these in
 
-Noise:  
+Noise:  Shifts the generated points randomly  
 Learning Rate:  
-Polynomial Order:  
+Polynomial Order: The order of the polynomial to try and fit to the data      
 Regularization:  
-Total Iterations:  
-Iteration Time Step:  
-Training Examples:  
+Total Iterations:  The number of iterations the program should run for  
+Iteration Time Step:  Only plots every x iterations  
+Training Examples:  Number of points to generate   
 Batch Size:   
 
 

@@ -94,7 +94,7 @@ def genData(data_type, num, scale_radius, win_size, noise):
 	xVals = [scale_radius*(2*np.random.random_sample()-1) for i in range(num)]
 
 	if data_type == 4: #Random
-		data_type = np.random.choice([1,2,3]) 
+		data_type = np.random.choice([0,1,2,3]) 
 
 	if data_type == 0: # linear
 		a = (2*np.random.random_sample()-1)
