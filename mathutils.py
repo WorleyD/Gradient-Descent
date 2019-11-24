@@ -65,9 +65,16 @@ def avgCost(theta, X, y):
 
 	err = err.tolist()[0][0] 
 
+	return err
+
+def uniformCost(err):
 	err = min(err, 1000000000000)
 
-	return 1/(1+(abs(err) / 1000  + err**2 / (10**10)))
+	err = 1/(1+(abs(err) / 1000  + err**2 / (10**10)))
+	
+	err = round(err,3)
+
+	return err
 
 def hypothesis(theta, Xval):
 

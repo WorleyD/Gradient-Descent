@@ -40,7 +40,7 @@ clickCount = 0
 noise = interface.Slider((20,25), (100,10), [i for i in range(0,101)], 0, "Noise")
 learningRate = interface.Slider((20,60), (100,10), [0.00000001 * i**2 for i in range(0,10001)], 1, "Learning Rate")
 polynomialOrder = interface.Slider((20, 95), (100,10), [math.floor(0.1*i + 1) for i in range(0,100)], 0, "Polynomial Order")
-regularization = interface.Slider((20,130), (100,10), [0.01 * i / 2 for i in range(0,1001)], 0, "Regularization")
+regularization = interface.Slider((20,130), (100,10), [0.000000005 * i**2 for i in range(0,10001)], 0, "Regularization")
 numIters = interface.Slider((20,165), (100,10), [i for i in range(1,1001)], 99, "Total Iterations")
 itersTime = interface.Slider((20, 200), (100,10), [math.floor(0.2*i + 1) for i in range(0,100)], 0, "Iteration Time Step")
 trainingEx = interface.Slider((20,235), (100,10), [i for i in range(1,1001)], 99, "Training Examples")
@@ -59,20 +59,29 @@ options2 = [generateData, dataSetType, clear, run, quit]
 plotw = plotter.plotWindow((400,0), (800,600))
 pdimensions = plotw.getDims()
 
+# Stores data points 
 data = None
 
+# Stores hypothesis function
 func = None
 
+# Stores the current state of GD (it runs over several iteration time-steps so if there is less time-steps
+# than there is iteration, the algorithm must persist over several frames so info is stored here regarding that)
 GD_RunState = None
 
+# Stores the GD parameters: hypothesis  = [1 x x^2 ... x^order]theta
 theta = None
 
+# Message to be output to the bottom of the screen
 currentMessage = None 
 msgColour = RED
 
+# For data scaling to ensure some numerical stability
 scale_radius = 7/6
 
-cost = 0
+# Cost of the current GD parameters
+cost = 1000000000000
+old_cost = 1000000000000
 
 ## The main loop
 while not done:
@@ -119,7 +128,7 @@ while not done:
 		options2[i].draw(screen)
 
 	# Plot update
-	plotw.update(screen, cost)
+	plotw.update(screen, mathutils.uniformCost(cost))
 
 	if data != None:
 
@@ -135,7 +144,7 @@ while not done:
 
 	### INPUT PROCESSING BEGINS
 
-	
+	# Removes notifications if the user clicks anywhere
 	if click:
 		currentMessage = None	
 
@@ -143,12 +152,15 @@ while not done:
 	if quit.getVal():
 		sys.exit()
 
+	# Clears the plot and terminates GD if "Clear" is clicked
 	if clear.getVal():
 		data = None
 		func = None
 		GD_RunState = None
-		cost = 0
+		cost = 1000000000000
+		old_cost = 1000000000000
 
+	# Prepares to run GD if "run" is clicked
 	if run.getVal():
 		if data == None:
 			currentMessage = "ERROR: No data generated!"
@@ -163,17 +175,26 @@ while not done:
 			theta = [[0] for i in range(order+1)]
 			theta[0][0] = 300
 			theta = np.matrix(theta)
-			
 
+			cost = 1000000000000
+			old_cost = 1000000000000
+			
+	# GD parameter / hypothesis updates
 	if GD_RunState != None:
 
 		if GD_RunState[0] == 0:
 			GD_RunState = None
+
 		else:
-			
+			if cost != 0:
+				old_cost = cost
+
+			# Gets the number of iterations to run GD
+			# This is equal to the iteration time step, or remainder if num_iterations < iter_time_step
 			iters = min(GD_RunState[4], GD_RunState[0])
 
 			GD_RunState[0] = GD_RunState[0] - iters
+
 
 			n = GD_RunState[1].shape[1] - 1
 
@@ -186,20 +207,21 @@ while not done:
 
 			theta = mathutils.gradientDescent(X, y, alpha, lmda, iters, batch_size, theta)
 
-			cost = round(mathutils.avgCost(theta, X, y),3)
+			cost = mathutils.avgCost(theta, X, y)
 
-			#If this doesnt work replace it with:
+			if old_cost != 0:
+				delta = cost - old_cost
+
+				if delta > 1000000:
+					GD_RunState[0] = 0
+					currentMessage = "GD FATAL ERROR: Try decreasing the learning rate."
+					msgColour = RED
+
 			#xpoints = [x/size*scale_radius - scale_radius for x in range(size*2 + 1)] 
 			xpoints = [x/150*scale_radius - scale_radius for x in range(301)]
 
 			func = [[x, mathutils.hypothesis(theta, np.matrix([[x**i for i in range(theta.shape[0])]]))] for x in xpoints]
 
-			#resources.getFunc(theta, mean, sdev, [x for x in range(0, pdimensions[1][0], 10)])
-
-			#print(func[0])
-			#func = [[x, np.matrix([(x/scale)**i for i in range(theta.shape[0]) ]) * theta] for x in range(0, pdimensions[1][0], 10)]
-
-			#func = [[int(point[0]) , int(point[1])] for point in func]
 
 	if generateData.getVal():
 
