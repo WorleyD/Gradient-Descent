@@ -3,6 +3,8 @@ import math
 import numpy as np
 
 BLACK = (0,0,0)
+RED = (255, 0,50)
+GREEN = (0, 255, 50)
 
 # Check if points are within screen range
 def inBounds(point, loc, size):
@@ -71,7 +73,7 @@ class plotWindow:
 	def getDims(self):
 		return [self.loc, self.size]
 
-	def update(self,screen, score = None):
+	def update(self,screen, score = None, message = None, iter_ratio = None):
 
 		pygame.draw.line(screen, BLACK,  self.loc, (self.loc[0]+self.size[0],self.loc[1]), 4)
 		pygame.draw.line(screen, BLACK,  self.loc, (self.loc[0],self.loc[1]+self.size[1]), 4)
@@ -85,6 +87,24 @@ class plotWindow:
 			colour = (int((1-score)* 255), int(score*255), 50)
 			text = font.render("Score: " +str(int(score*100)) + "%",True,colour)
 			screen.blit(text, (self.loc[0]+20, self.loc[1]+25 - int(text.get_height()/2)+1))
+
+		if message != None:
+			font = pygame.font.Font('freesansbold.ttf', 25)
+			text = font.render(message,True,RED)
+			screen.blit(text, (self.loc[0]+20, self.loc[1]+55 - int(text.get_height()/2)+1))
+
+		if iter_ratio != None:
+			x_len = iter_ratio * self.size[0] + self.loc[0]
+
+			i = self.loc[0]
+
+			pygame.draw.line(screen, BLACK,  (self.loc[0]+self.size[0],self.loc[1]+self.size[1]-27), (self.loc[0],self.loc[1]+self.size[1]-27), 2)
+
+			while i < self.size[0] + self.loc[0]:
+				if i < x_len:
+					pygame.draw.rect(screen, GREEN, (i,self.loc[1]+self.size[1]-25,25,25), 0)
+				pygame.draw.line(screen, BLACK, (i,self.loc[1]+self.size[1]-25), (i,self.loc[1]+self.size[1]), 2)
+				i = i + 25
 
 	'''
 	data - list of ordered pairs to plotted (points only drawn if in the window)

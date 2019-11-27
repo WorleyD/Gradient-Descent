@@ -28,6 +28,8 @@ def gradientDescent(X, y, alpha, lmda, iters, batch_size, init_theta):
 	if batch_size > m:
 		batch_size = m
 
+
+
 	for i in range(iters):
 		
 		if batch_size < m:
@@ -44,7 +46,12 @@ def gradientDescent(X, y, alpha, lmda, iters, batch_size, init_theta):
 			y_new = y[j*batch_size: min((j+1)*batch_size, m)]
 
 			temp = theta
-			theta = temp - (alpha / batch_size) * (np.transpose(X_new) * (X_new*temp - y_new) - lmda * temp)
+
+			temp2 = theta.tolist()
+			temp2[0][0] = 0
+			temp2 = np.matrix(temp2)
+
+			theta = temp - (alpha / batch_size) * (np.transpose(X_new) * (X_new*temp - y_new) - lmda * temp2)
 
 	return theta
 
