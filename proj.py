@@ -38,7 +38,7 @@ clickCount = 0
 ## Sliders, Buttons, and Options
 
 noise = interface.Slider((20,25), (100,10), [i for i in range(0,101)], 0, "Noise")
-learningRate = interface.Slider((20,60), (100,10), [0.00001 * i for i in range(0,10001)], 5000, "Learning Rate")
+learningRate = interface.Slider((20,60), (100,10), [0.0001 * i for i in range(0,10001)], 5000, "Learning Rate")
 polynomialOrder = interface.Slider((20, 95), (100,10), [math.floor(0.1*i + 1) for i in range(0,100)], 0, "Polynomial Order")
 regularization = interface.Slider((20,130), (100,10), [0.000000005 * i**2 for i in range(0,10001)], 0, "Regularization")
 numIters = interface.Slider((20,165), (100,10), [i for i in range(1,1001)], 249, "Total Iterations")
