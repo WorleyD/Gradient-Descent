@@ -15,14 +15,15 @@ This program requires Python 3.5+, Pygame, and Numpy to be installed in order to
 
 Upon launching the program you'll be greeted with a window consisting of a blank plotting surface, as well as sliders and buttons to tweak parameters, generate data, and run the program. An explanation of all tweak-able parameters is provided below.
 
+TODO Fill these in
 
-Noise:  Shifts the generated points randomly  
+Noise:  
 Learning Rate:  
-Polynomial Order: The order of the polynomial to try and fit to the data      
+Polynomial Order:  
 Regularization:  
-Total Iterations:  The number of iterations the program should run for  
-Iteration Time Step:  Only plots every x iterations  
-Training Examples:  Number of points to generate   
+Total Iterations:  
+Iteration Time Step:  
+Training Examples:  
 Batch Size:   
 
 
@@ -43,4 +44,5 @@ David W.
 
 
 ## Authors Note
-https://xkcd.com/1838/
+![alt text](https://imgs.xkcd.com/comics/machine_learning.png "The pile gets soaked with data and starts to get mushy over time, so it's technically recurrent.")
+
