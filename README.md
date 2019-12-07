@@ -15,8 +15,6 @@ This program requires Python 3.5+, Pygame, and Numpy to be installed in order to
 
 Upon launching the program you'll be greeted with a window consisting of a blank plotting surface, as well as sliders and buttons to tweak parameters, generate data, and run the program. An explanation of all tweak-able parameters is provided below.
 
-TODO Fill these in
-
 Learning Rate: min = 0, max = 1 (float)
 
   Controls the step size in gradient descent. Setting this value too high will cause the algorithm to fail, but setting it     too low will make it run too slow.
